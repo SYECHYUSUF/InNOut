@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<VBox alignment="CENTER" spacing="20">
+    <Label fx:id="usernameLabel" text="User: "/>
+    <Button text="Present In" onAction="#presensiMasuk"/>
+    <Button text="Attendance History" onAction="#lihatRiwayatPresensi"/>
+    <Button text="Logout" onAction="#logout"/>
+</VBox>

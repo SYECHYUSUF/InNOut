@@ -1,0 +1,12 @@
+[
+    {
+        "user_id": 1,
+        "username": "admin",
+        "password": "hashedpassword123"
+    },
+    {
+        "user_id": 2,
+        "username": "user1",
+        "password": "hashedpassword456"
+    }
+]
