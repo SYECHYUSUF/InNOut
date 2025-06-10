@@ -1,12 +1,20 @@
 [
     {
-        "user_id": 1,
-        "username": "admin",
-        "password": "hashedpassword123"
+        "idUser": 1,
+        "password": "admin123",
+        "type": "admin",
+        "username": "admin"
     },
     {
-        "user_id": 2,
-        "username": "user1",
-        "password": "hashedpassword456"
+        "idUser": 2,
+        "password": "123",
+        "type": "pengguna",
+        "username": "chand"
+    },
+    {
+        "idUser": 3,
+        "password": "123",
+        "type": "pengguna",
+        "username": "reyhan"
     }
 ]
