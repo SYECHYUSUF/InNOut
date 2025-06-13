@@ -34,7 +34,7 @@ public class AdminDashboardController {
             BorderPane  eventRoot = loader.load();
             Stage stage = (Stage) manageEventButton.getScene().getWindow();
             // stage.setFullScreen(true);
-            stage.setScene(new Scene(eventRoot, 600, 400));
+            stage.setScene(new Scene(eventRoot));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class AdminDashboardController {
             BorderPane userRoot = loader.load();
             Stage stage = (Stage) manageUserButton.getScene().getWindow();
             // stage.setFullScreen(true);
-            stage.setScene(new Scene(userRoot, 600, 400));
+            stage.setScene(new Scene(userRoot));
         } catch (Exception e) {
             e.printStackTrace();
         }
