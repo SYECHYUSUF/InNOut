@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20.0" styleClass="login-container" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.RegisterController">
+<VBox alignment="CENTER" spacing="20.0" styleClass="login-container" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.RegisterUserController">
     <children>
         <Label styleClass="user-icon" text="📝" />
 

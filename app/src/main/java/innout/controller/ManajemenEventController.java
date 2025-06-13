@@ -51,25 +51,39 @@ public class ManajemenEventController {
 
     @FXML
     public void initialize() {
-        // Konfigurasi kolom tabel
+        // Konfigurasi cell factory untuk setiap kolom (kode Anda yang sudah ada)
         kolomNamaEvent.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNamaEvent()));
         kolomTanggal.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTanggal()));
         kolomLokasi.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getLokasi()));
         kolomDeskripsi.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDeskripsi()));
         kolomJumlahTiket.setCellValueFactory(cellData -> new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getJumlahTiket()).asObject());
 
-        // Muat dan tampilkan event
+        // --- MULAI KODE BARU UNTUK UKURAN KOLOM OTOMATIS ---
+
+        // Atur agar lebar setiap kolom terikat pada persentase lebar TableView.
+        // Angka-angka ini (0.25, 0.15, dll.) adalah persentase. Anda bisa mengubahnya.
+        // Total persentase sebaiknya sedikit di bawah 1.0 (misal, 0.99) untuk menghindari scrollbar horizontal.
+        kolomNamaEvent.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.25));   // 25%
+        kolomTanggal.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.15));     // 15%
+        kolomLokasi.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.20));       // 20%
+        kolomDeskripsi.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.25));    // 25%
+        kolomJumlahTiket.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.14));  // 14%
+
+        // --- SELESAI KODE BARU ---
+
+
+        // Muat dan tampilkan event (kode Anda yang sudah ada)
         muatDanTampilkanEvent();
 
-        // Tambahkan listener ke TableView untuk mengisi form saat item dipilih (untuk mode edit)
+        // Tambahkan listener ke TableView (kode Anda yang sudah ada)
         eventTableView.getSelectionModel().selectedItemProperty().addListener(
-            (obs, oldSelection, newSelection) -> {
-                if (newSelection != null) {
-                    editEvent = newSelection;
-                } else {
-                    editEvent = null;
+                (obs, oldSelection, newSelection) -> {
+                    if (newSelection != null) {
+                        editEvent = newSelection;
+                    } else {
+                        editEvent = null;
+                    }
                 }
-            }
         );
     }
 
@@ -201,7 +215,7 @@ public class ManajemenEventController {
             // stage.setFullScreen(true);
 
             // Menetapkan scene baru yang sudah dimuat dengan FXML
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root);
             stage.setScene(scene);
 
             // Menampilkan scene baru

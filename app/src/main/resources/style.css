@@ -12,7 +12,7 @@
     -fx-glass-color: rgba(37, 37, 38, 0.85);
     -fx-glass-border-color: rgba(128, 128, 128, 0.2);
     -fx-font-family: "System";
-    -fx-background-color: -fx-main-bg;
+    -fx-background-color: #1E1E1E;
 }
 /* --- Perbaikan Bug Latar Belakang Putih saat maximize --- */
 .transparent-pane { -fx-background-color: transparent; }

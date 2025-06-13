@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,6 +17,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.TableCell;
 
@@ -26,7 +28,12 @@ public class ManageUserController {
     @FXML
     private TableColumn<User, String> emailColumn;  // Kolom untuk email
     @FXML
+    private TableColumn<User, String> passwordColumn;
+    @FXML
     private TableColumn<User, Void> deleteColumn;  // Kolom untuk tombol hapus (Void karena kita menggunakan Button)
+
+    @FXML
+    private Button kembaliButton;
 
     private UserService userService;
     private ObservableList<User> userList;
@@ -37,8 +44,13 @@ public class ManageUserController {
 
     @FXML
     private void initialize() {
+
+        userTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         // Setup kolom email untuk menampilkan email
         emailColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getEmail()));
+
+        // Setup kolom password untuk menampilkan password <-- TAMBAHKAN BLOK INI
+        passwordColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getPassword()));
 
         // Setup kolom hapus (dengan tombol hapus)
         deleteColumn.setCellFactory(column -> {
@@ -46,16 +58,17 @@ public class ManageUserController {
                 private final Button deleteButton = new Button("Delete");
 
                 {
-                    deleteButton.setOnAction(e -> handleDeleteUser(getTableRow().getItem())); // Delete user ketika tombol diklik
+                    setAlignment(Pos.CENTER);
+                    deleteButton.setOnAction(e -> handleDeleteUser(getTableRow().getItem()));
                 }
 
                 @Override
                 protected void updateItem(Void item, boolean empty) {
                     super.updateItem(item, empty);
                     if (empty) {
-                        setGraphic(null);  // Jika baris kosong, tidak tampilkan grafik
+                        setGraphic(null);
                     } else {
-                        setGraphic(deleteButton);  // Jika ada data, tampilkan tombol hapus
+                        setGraphic(deleteButton);
                     }
                 }
             };
@@ -94,26 +107,47 @@ public class ManageUserController {
         alert.showAndWait();
     }
 
-    // Menambahkan user baru (misalnya tombol add new user)
     @FXML
-    private void handleAddNewUserAction(ActionEvent event) {
-        // Menampilkan form registrasi
+private void handleAddNewUserAction(ActionEvent event) {
+    try {
+        // 1. Muat FXML untuk form pop-up
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/add_user.fxml")); // Ganti path jika perlu
+        Parent root = loader.load();
+
+        // 2. Buat Stage (jendela) baru untuk pop-up
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Add New User");
+        dialogStage.setScene(new Scene(root));
+
+        // 3. Atur agar window utama tidak bisa diklik sebelum pop-up ditutup
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(userTableView.getScene().getWindow());
+
+        // 4. Tampilkan jendela pop-up dan tunggu sampai ditutup
+        dialogStage.showAndWait();
+
+        // 5. Setelah jendela ditutup, muat ulang data di tabel untuk menampilkan user baru
+        loadUserList();
+
+    } catch (IOException e) {
+        e.printStackTrace();
+        showAlert(Alert.AlertType.ERROR, "Error", "Could not open the registration form.");
+    }
+}
+
+ @FXML
+    private void handleKembaliButtonAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/register_user.fxml"));
+            // Logika ini sama seperti di ManajemenEventController
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin_dashboard.fxml"));
             Parent root = loader.load();
-
-            // Mendapatkan stage (jendela) yang sedang aktif
-            Stage stage = (Stage) userTableView.getScene().getWindow();
+            Stage stage = (Stage) kembaliButton.getScene().getWindow();
             Scene scene = new Scene(root);
-
-            // Ganti scene untuk menampilkan form registrasi
             stage.setScene(scene);
-            stage.setTitle("Register New User");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert(AlertType.ERROR, "Error", "Tidak dapat membuka form registrasi.");
+            showAlert(Alert.AlertType.ERROR, "Error", "Tidak dapat kembali ke Dashboard.");
         }
     }
-
 }
