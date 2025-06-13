@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Label?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="your.package.LogEventController">
-    <children>
-        <!-- Konten untuk log event -->
-        <Label text="Log Event" />
-    </children>
-</AnchorPane>
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="innout.controller.LogEventController"
+      styleClass="root" alignment="TOP_CENTER" spacing="20.0" stylesheets="style.css">
+	<TilePane fx:id="eventTilePane"  prefWidth="600" prefHeight="400" hgap="10" vgap="10">
+
+	</TilePane>
+</VBox>

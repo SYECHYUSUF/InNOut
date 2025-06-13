@@ -34,16 +34,21 @@ public class UserDashboardController {
 
     @FXML
     private void handleLogEventAction(ActionEvent event) {
-        System.out.println("Log Event button clicked!");
-        // Implement the action for Log Event
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/log_event.fxml"));
+            VBox logEventRoot = loader.load();
+
+            // Ambil stage saat ini dan set scene ke halaman katalog event
+            Stage stage = (Stage) logEventButton.getScene().getWindow();
+            Scene scene = new Scene(logEventRoot, 800, 600); // Atur ukuran sesuai kebutuhan
+            stage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();  // Menampilkan detail error jika file tidak ditemukan
+            showAlert("Error", "Terjadi masalah saat memuat halaman katalog event.");
+        }
     }
 
-    // @FXML
-    // private TilePane eventGrid;  // This will be your grid container
-
-    // private EventService eventService = new EventService();
-
-    // This method is triggered when the user clicks on "Katalog Event"
     @FXML
     private void handleKatalogEventAction(ActionEvent event) {
         try {
@@ -51,7 +56,7 @@ public class UserDashboardController {
             VBox katalogEventRoot = loader.load();
 
             // Ambil stage saat ini dan set scene ke halaman katalog event
-            Stage stage = (Stage) katalogEventButton.getScene().getWindow();
+            Stage stage = (Stage) logEventButton.getScene().getWindow();
             Scene scene = new Scene(katalogEventRoot, 800, 600); // Atur ukuran sesuai kebutuhan
             stage.setScene(scene);
 
