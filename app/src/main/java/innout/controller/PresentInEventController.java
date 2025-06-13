@@ -74,7 +74,7 @@ public class PresentInEventController {
     private StackPane createEventCard(Event event) {
         StackPane card = new StackPane();
         card.getStyleClass().add("card");
-        
+
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.TOP_LEFT);
         vbox.setPadding(new Insets(15));
@@ -170,7 +170,7 @@ public class PresentInEventController {
         customContentLabel.setWrapText(true);
         customContentLabel.getStyleClass().add("label");
         customContentLabel.setAlignment(Pos.CENTER);
-        
+
         // Hapus alert.getDialogPane().getButtonTypes().clear();
         // Karena AlertType.NONE tidak punya ButtonType bawaan untuk dihapus
 
@@ -188,10 +188,10 @@ public class PresentInEventController {
         dialogContent.setPadding(new Insets(10));
 
         alert.getDialogPane().setContent(dialogContent);
-        
+
         alert.showAndWait();
     }
-    
+
     @FXML
     private void handleBackToDashboard(ActionEvent event) {
         try {
