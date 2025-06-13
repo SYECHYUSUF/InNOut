@@ -33,12 +33,6 @@ public class UserDashboardController {
     // }
 
     @FXML
-    private void handlePresentInAction(ActionEvent event) {
-        System.out.println("Present In button clicked!");
-        // Implement the action for Present In
-    }
-
-    @FXML
     private void handleLogEventAction(ActionEvent event) {
         System.out.println("Log Event button clicked!");
         // Implement the action for Log Event
@@ -66,6 +60,25 @@ public class UserDashboardController {
             showAlert("Error", "Terjadi masalah saat memuat halaman katalog event.");
         }
     }
+
+    @FXML
+    private void handlePresentInAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/present_in.fxml"));
+            VBox presentInRoot = loader.load();
+
+            // Ambil stage saat ini dan set scene ke halaman katalog event
+            Stage stage = (Stage) presentInButton.getScene().getWindow();
+            Scene scene = new Scene(presentInRoot, 800, 600); // Atur ukuran sesuai kebutuhan
+            stage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();  // Menampilkan detail error jika file tidak ditemukan
+            showAlert("Error", "Terjadi masalah saat memuat halaman katalog event.");
+        }
+    }
+
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);

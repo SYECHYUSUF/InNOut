@@ -8,14 +8,19 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
+import innout.model.Attendance;
 import innout.model.Event;
 import innout.service.EventService;
 import innout.service.UserService;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
+import innout.service.AttendanceService;
+
 public class KatalogEventController {
+    private AttendanceService attendanceService = new AttendanceService();
 
     @FXML
     private TilePane eventTilePane;  // Referensi ke TilePane yang ada di FXML
@@ -91,28 +96,56 @@ public class KatalogEventController {
         eventDetailAlert.showAndWait();
     }
 
-    // Menangani aksi "Beli Tiket"
     private void handleBuyTicket(Event event) {
         if (event.isTiketAvailable()) {
-            // Menambahkan pembeli (misalnya, menggunakan nama pengguna yang sudah login)
+            // Menambahkan pembeli (menggunakan email pengguna yang sudah login)
             String emailPembeli = UserService.getCurrentUserEmail(); // Ganti dengan nama pengguna yang sudah login
             event.tambahPembeli(emailPembeli);
 
-            // Menyimpan perubahan ke file
+            // Menyimpan perubahan ke file event
             eventService.updateEvent(event);
 
+            // Catat ke attendance.json dengan status false (belum hadir)
+            markAttendance(emailPembeli, event);
+
+            // Muat ulang tampilan event
             muatDanTampilkanKatalogEvent();
 
+            // Menampilkan alert
             showAlert("Sukses", "Tiket untuk event " + event.getNamaEvent() + " berhasil dibeli!");
         } else {
             showAlert("Gagal", "Tiket untuk event " + event.getNamaEvent() + " sudah habis.");
         }
     }
 
-    private void muatDanTampilkanKatalogEvent() {
-        List<Event> eventList = eventService.muatSemuaEvent();  // Memuat daftar event yang terbaru dari file
+    private void markAttendance(String userEmail, Event event) {
+        // Muat data kehadiran dari file attendance
+        List<Attendance> attendanceList = attendanceService.loadAttendanceData();
 
-        // Mengosongkan daftar event pada tampilan
+        // Cek jika user sudah tercatat di attendance
+        Attendance userAttendance = null;
+        for (Attendance attendance : attendanceList) {
+            if (attendance.getUser().equals(userEmail)) {
+                userAttendance = attendance;
+                break;
+            }
+        }
+
+        // Jika belum ada data untuk user, buat data baru
+        if (userAttendance == null) {
+            userAttendance = new Attendance(userEmail, new HashMap<>());
+            attendanceList.add(userAttendance);
+        }
+
+        // Tambahkan event ke daftar event yang dibeli dan tandai belum hadir
+        userAttendance.getEvents().put(event.getNamaEvent(), false);
+
+        // Simpan perubahan ke dalam file attendance
+        attendanceService.saveAttendanceData(attendanceList);
+    }
+
+
+    private void muatDanTampilkanKatalogEvent() {
         eventTilePane.getChildren().clear();
 
         List<Event> events = eventService.muatSemuaEvent();  // Memuat semua event
