@@ -1,11 +1,17 @@
 package innout.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import innout.model.Attendance;
@@ -23,96 +29,114 @@ public class KatalogEventController {
     private AttendanceService attendanceService = new AttendanceService();
 
     @FXML
-    private TilePane eventTilePane;  // Referensi ke TilePane yang ada di FXML
+    private TilePane eventTilePane;
 
     private EventService eventService = new EventService();
 
     @FXML
     private void initialize() {
-        List<Event> events = eventService.muatSemuaEvent();  // Memuat semua event
-        for (Event event : events) {
-            createEventCard(event);  // Membuat card untuk setiap event
-        }
+        muatDanTampilkanKatalogEvent();
     }
 
     private void createEventCard(Event event) {
         VBox eventCard = new VBox(10);
-        eventCard.setStyle("-fx-border-color: #000; -fx-padding: 10; -fx-background-color: #fff;");
+        eventCard.getStyleClass().add("card");
+        eventCard.setAlignment(Pos.TOP_LEFT);
+        eventCard.setPadding(new Insets(15));
 
-        // Judul event
         Label eventTitle = new Label(event.getNamaEvent());
-        eventTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        eventTitle.getStyleClass().add("card-title");
 
-        // Deskripsi dan detail
-        Label eventDetails = new Label("Tanggal: " + event.getTanggal() + "\nLokasi: " + event.getLokasi() + "\nTiket Tersisa: " + (event.getJumlahTiket() - event.getPembeli().size()));
+        Label eventDetails = new Label(
+            "Tanggal: " + event.getTanggal() +
+            "\nLokasi: " + event.getLokasi() +
+            "\nTiket Tersisa: " + (event.getJumlahTiket() - event.getPembeli().size())
+        );
+        eventDetails.setWrapText(true);
+        eventDetails.getStyleClass().add("label");
 
-        // Tombol untuk melihat detail event
         Button detailButton = new Button("Lihat Detail");
+        detailButton.getStyleClass().add("button");
         detailButton.setOnAction(e -> handleViewEventDetails(event));
+        detailButton.setMaxWidth(Double.MAX_VALUE);
 
-        // Menambahkan elemen ke dalam card
         eventCard.getChildren().addAll(eventTitle, eventDetails, detailButton);
-
-        // Pastikan card benar-benar ditambahkan ke TilePane
-        eventTilePane.getChildren().add(eventCard);  // Add card to the TilePane
-
-        // return eventCard;
+        eventTilePane.getChildren().add(eventCard);
     }
 
-    // Menangani aksi tombol "Lihat Detail"
+    @FXML
+    private void handleBackToDashboard(ActionEvent event) {
+        try {
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/user_dashboard.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("User Dashboard");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Gagal memuat dashboard: " + e.getMessage());
+            showAlert("Navigasi Gagal", "Tidak dapat memuat halaman dashboard. Mohon hubungi administrator.");
+        }
+    }
+
     private void handleViewEventDetails(Event event) {
-        // Membuat alert untuk menampilkan detail event
         Alert eventDetailAlert = new Alert(Alert.AlertType.INFORMATION);
         eventDetailAlert.setTitle("Detail Event");
-        eventDetailAlert.setHeaderText(event.getNamaEvent());
+        eventDetailAlert.setHeaderText(null);
 
-        // Menambahkan konten detail event
-        eventDetailAlert.setContentText(
+        // Menambahkan stylesheet langsung ke DialogPane alert
+        eventDetailAlert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        // Terapkan style class ke DialogPane Alert
+        eventDetailAlert.getDialogPane().getStyleClass().add("dialog-pane");
+
+        Label contentTextLabel = new Label(
+                "Event: " + event.getNamaEvent() + "\n" +
                 "Tanggal: " + event.getTanggal() + "\n" +
                 "Lokasi: " + event.getLokasi() + "\n" +
                 "Deskripsi: " + event.getDeskripsi() + "\n" +
                 "Tiket Tersisa: " + (event.getJumlahTiket() - event.getPembeli().size())
         );
+        contentTextLabel.setWrapText(true);
+        contentTextLabel.getStyleClass().add("label");
 
-        // Tombol "Beli" untuk membeli tiket
         Button buyButton = new Button("Beli Tiket");
+        buyButton.getStyleClass().add("button");
         buyButton.setOnAction(e -> {
             handleBuyTicket(event);
-            eventDetailAlert.close();  // Menutup alert setelah beli
+            eventDetailAlert.close();
         });
 
-        // Tombol "Cancel" untuk menutup alert tanpa melakukan apa-apa
         Button cancelButton = new Button("Cancel");
+        cancelButton.getStyleClass().add("button");
         cancelButton.setOnAction(e -> eventDetailAlert.close());
 
-        // Mengatur button dalam sebuah HBox
         HBox buttonBox = new HBox(10, buyButton, cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(15, 0, 0, 0));
 
-        // Menambahkan tombol-tombol ke dalam alert
-        eventDetailAlert.getDialogPane().setContent(buttonBox);
+        VBox dialogContent = new VBox(10);
+        dialogContent.getChildren().addAll(contentTextLabel, buttonBox);
+        dialogContent.setAlignment(Pos.CENTER);
+        dialogContent.setPadding(new Insets(10));
 
-        // Menampilkan alert
+        eventDetailAlert.getDialogPane().setContent(dialogContent);
+
         eventDetailAlert.showAndWait();
     }
 
     private void handleBuyTicket(Event event) {
         if (event.isTiketAvailable()) {
-            // Menambahkan pembeli (menggunakan email pengguna yang sudah login)
-            String emailPembeli = UserService.getCurrentUserEmail(); // Ganti dengan nama pengguna yang sudah login
-            event.tambahPembeli(emailPembeli);
-
-            // Menyimpan perubahan ke file event
-            eventService.updateEvent(event);
-
-            // Catat ke attendance.json dengan status false (belum hadir)
-            markAttendance(emailPembeli, event);
-
-            // Muat ulang tampilan event
-            muatDanTampilkanKatalogEvent();
-
-            // Menampilkan alert
-            showAlert("Sukses", "Tiket untuk event " + event.getNamaEvent() + " berhasil dibeli!");
+            String emailPembeli = UserService.getCurrentUserEmail();
+            if (emailPembeli != null && !emailPembeli.isEmpty()) {
+                event.tambahPembeli(emailPembeli);
+                eventService.updateEvent(event);
+                showAlert("Sukses", "Tiket untuk event " + event.getNamaEvent() + " berhasil dibeli!");
+                muatDanTampilkanKatalogEvent();
+            } else {
+                showAlert("Gagal", "Tidak dapat membeli tiket. Pengguna belum login atau email tidak tersedia.");
+            }
         } else {
             showAlert("Gagal", "Tiket untuk event " + event.getNamaEvent() + " sudah habis.");
         }
@@ -147,22 +171,35 @@ public class KatalogEventController {
 
     private void muatDanTampilkanKatalogEvent() {
         eventTilePane.getChildren().clear();
-
-        List<Event> events = eventService.muatSemuaEvent();  // Memuat semua event
+        List<Event> events = eventService.muatSemuaEvent();
         for (Event event : events) {
-            createEventCard(event);  // Membuat card untuk setiap event
+            createEventCard(event);
         }
     }
 
-
-    // Menampilkan alert
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+
+        // Menambahkan stylesheet langsung ke DialogPane alert
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        // Terapkan gaya dialog-pane ke DialogPane Alert
+        alert.getDialogPane().getStyleClass().add("dialog-pane");
+
+        // Perbaiki cara mendapatkan label konten bawaan Alert dan terapkan gaya
+        Label contentLabel = (Label) alert.getDialogPane().lookup(".content.label");
+        if (contentLabel != null) {
+            contentLabel.getStyleClass().add("label");
+        }
+
+        // Terapkan gaya button ke tombol OK bawaan Alert
+        Button okButton = (Button) alert.getDialogPane().lookupButton(javafx.scene.control.ButtonType.OK);
+        if (okButton != null) {
+            okButton.getStyleClass().add("button");
+        }
+
         alert.showAndWait();
     }
-
 }
-
