@@ -40,19 +40,24 @@ public class UserStorageService {
         }
     }
 
-    // Menambahkan pengguna baru
-    public void addUser(User user) {
+    // Menambahkan pengguna baru, jika email belum terdaftar
+    public boolean addUser(User user) {
+        // Cek apakah email sudah terdaftar
+        if (getUserByEmail(user.getEmail()) != null) {
+            return false; // Email sudah terdaftar, tidak bisa mendaftar lagi
+        }
         users.add(user);
         saveUsers();
+        return true; // Berhasil menambahkan user
     }
 
     // Mengambil pengguna berdasarkan email
     public User getUserByEmail(String email) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
-                return user;
+                return user; // Jika ditemukan, return user
             }
         }
-        return null;
+        return null; // Jika tidak ditemukan, return null
     }
 }

@@ -7,7 +7,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class App extends Application {
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Memuat file FXML login

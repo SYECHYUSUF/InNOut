@@ -12,7 +12,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
 public class LoginController {
 
@@ -27,12 +26,17 @@ public class LoginController {
 
     @FXML
     private void handleLogin(ActionEvent event) {
-        System.out.println("p");
         String email = emailField.getText();
         String password = passwordField.getText();
 
         if (userService.loginUser(email, password)) {
-            showAlert("Login Successful", "Welcome!");
+            if (email.equals("admin@email.com")) {
+                // Jika email adalah admin, langsung navigasikan ke Admin Dashboard
+                navigateToAdminDashboard(event);
+            } else {
+                showAlert("Login Successful", "Welcome " + email + "!");
+                // Navigasi ke halaman user dashboard atau halaman lain jika diperlukan
+            }
         } else {
             showAlert("Login Failed", "Invalid credentials.");
         }
@@ -56,5 +60,18 @@ public class LoginController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    // Navigasi langsung ke Admin Dashboard
+    private void navigateToAdminDashboard(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin_dashboard.fxml"));
+            AnchorPane adminDashboardRoot = loader.load();
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(new Scene(adminDashboardRoot, 600, 400));
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Navigation Error", "Could not load the Admin Dashboard.");
+        }
     }
 }

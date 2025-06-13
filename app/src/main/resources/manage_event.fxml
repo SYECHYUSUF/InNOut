@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.ManajemenEventController">
+    <!-- Top Section: Header -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <padding><Insets left="20.0" right="20.0" top="10.0" bottom="10.0" /></padding>
+            <Label text="Manajemen Event" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+    <!-- Center Section: Form & TableView -->
+    <center>
+        <HBox spacing="20.0" BorderPane.alignment="CENTER">
+            <VBox spacing="15.0" prefWidth="300.0">
+                <!-- Form untuk menambah/edit event -->
+                <Label text="Nama Event" />
+                <TextField fx:id="namaEventField" promptText="Nama Event" />
+
+                <Label text="Tanggal" />
+                <DatePicker fx:id="tanggalEventPicker" layoutX="100.0" layoutY="350.0" />
+
+                <Label text="Lokasi" />
+                <TextField fx:id="lokasiField" promptText="Lokasi Event" />
+
+                <Label text="Deskripsi" />
+                <TextField fx:id="deskripsiField" promptText="Deskripsi Event" />
+
+                <Label text="Jumlah Tiket" />
+                <TextField fx:id="jumlahTiketField" promptText="Jumlah Tiket" />
+
+                <Button fx:id="tambahEventButton" text="Tambah Event" onAction="#handleTambahEventButtonAction" />
+            </VBox>
+
+            <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                <!-- Tabel untuk menampilkan event -->
+                <TableView fx:id="eventTableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="kolomNamaEvent" text="Nama Event" />
+                        <TableColumn fx:id="kolomTanggal" text="Tanggal" />
+                        <TableColumn fx:id="kolomLokasi" text="Lokasi" />
+                        <TableColumn fx:id="kolomDeskripsi" text="Deskripsi" />
+                        <TableColumn fx:id="kolomJumlahTiket" text="Jumlah Tiket" />
+                    </columns>
+                </TableView>
+
+                <!-- Tombol untuk mengedit dan menghapus event -->
+                <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                    <Button fx:id="editEventButton" text="Edit Event" onAction="#handleEditEventButtonAction" />
+                    <Button fx:id="hapusEventButton" text="Hapus Event" onAction="#handleHapusEventButtonAction" />
+                </HBox>
+            </VBox>
+        </HBox>
+    </center>
+
+    <!-- Bottom Section: Kembali ke Dashboard -->
+    <bottom>
+        <HBox alignment="CENTER" spacing="10.0">
+            <Button fx:id="kembaliKeDashboardButton" text="Kembali ke Dashboard" onAction="#handleKembaliKeDashboardButtonAction" />
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.LoginController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@/style.css" fx:controller="innout.controller.LoginController">
     <children>
         <TextField fx:id="emailField" layoutX="100" layoutY="50" promptText="Email" />
         <PasswordField fx:id="passwordField" layoutX="100" layoutY="100" promptText="Password" />

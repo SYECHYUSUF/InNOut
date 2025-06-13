@@ -13,7 +13,14 @@ public class UserService {
     }
 
     // Metode untuk registrasi pengguna baru
-    public void registerUser(User user) {
-        storageService.addUser(user);
+    public String registerUser(String email, String password) {
+        User newUser = new User(email, password);
+        boolean success = storageService.addUser(newUser);  // Cek jika registrasi berhasil
+
+        if (success) {
+            return "Registration successful! You can now log in.";
+        } else {
+            return "Email is already registered. Please choose another email.";
+        }
     }
 }
