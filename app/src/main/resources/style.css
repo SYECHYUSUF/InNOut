@@ -102,3 +102,36 @@
     -fx-alignment: CENTER_RIGHT; /* Membuat teks rata kanan */
     -fx-padding: 1em 0.8em 1em 1em; /* Menambah sedikit padding di kanan agar tidak mepet */
 }
+
+.card {
+    -fx-border-color: #ccc;
+    -fx-padding: 10px;
+    -fx-background-color: #f4f4f4;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.card:hover {
+    -fx-background-color: #d0e7f1;  /* Warna saat mouse hover */
+}
+
+.tile-pane {
+    -fx-hgap: 10px;
+    -fx-vgap: 10px;
+    -fx-padding: 20px;
+}
+
+.label {
+    -fx-font-size: 14px;
+}
+
+button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+button:hover {
+    -fx-background-color: #45a049;
+}

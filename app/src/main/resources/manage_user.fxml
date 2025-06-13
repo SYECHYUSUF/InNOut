@@ -2,32 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.ManageUserController">
-    <top>
-        <HBox alignment="CENTER" spacing="10.0" style="-fx-padding: 10;">
-            <Button text="Add New User" onAction="#handleAddNewUserAction" />
-        </HBox>
-    </top>
-    <center>
-        <TableView fx:id="userTableView">
-            <columns>
-                <TableColumn fx:id="emailColumn" text="Email" prefWidth="200.0" />
-                <TableColumn fx:id="deleteColumn" text="Delete" prefWidth="100.0" />
-            </columns>
-        </TableView>
-    </center>
-</BorderPane>
-
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -35,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="500.0" prefWidth="600.0" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.ManajemenUserController">
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.ManageUserController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -75,4 +49,4 @@
             </children>
         </HBox>
     </bottom>
-</BorderPane>
+</VBox>

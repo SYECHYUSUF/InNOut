@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.KatalogEventController">
+    <Label text="Welcome, User!" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 10px;"/>
+
+    <TilePane fx:id="eventTilePane" prefColumns="4" hgap="10" vgap="10">
+
+    </TilePane>
+</VBox>

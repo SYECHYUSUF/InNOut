@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="your.package.PresentInEventController">
+    <children>
+        <!-- Konten untuk present in -->
+        <Label text="Present In Event" />
+    </children>
+</AnchorPane>

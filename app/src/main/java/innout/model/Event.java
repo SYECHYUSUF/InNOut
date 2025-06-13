@@ -104,4 +104,3 @@ public class Event {
         return Objects.hash(namaEvent, tanggal, lokasi, deskripsi);
     }
 }
-
