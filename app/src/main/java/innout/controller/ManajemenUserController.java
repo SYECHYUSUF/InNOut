@@ -24,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -68,14 +69,29 @@ public class ManajemenUserController implements Initializable {
             showAlert(Alert.AlertType.WARNING, "Peringatan", "Silakan pilih user yang ingin dihapus terlebih dahulu.");
         }
     }
-    @FXML
-    private void handleKembaliKeDashboardButtonAction(ActionEvent event) throws IOException {
-        Parent dashboardRoot = FXMLLoader.load(getClass().getResource("/innout/view/AdminDashboard.fxml")); 
-        Scene scene = new Scene(dashboardRoot);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+   @FXML
+    private void handleKembaliKeDashboardButtonAction(ActionEvent event) {
+        // Cobalah untuk memuat file FXML Dashboard Admin
+        try {
+            // Memuat file FXML untuk halaman Dashboard
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin_dashboard.fxml"));
+            Parent root = loader.load();
+
+            // Mendapatkan stage (jendela aplikasi) yang sedang aktif
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+            // Menetapkan scene baru yang sudah dimuat dengan FXML
+            Scene scene = new Scene(root, 600, 400);
+            stage.setScene(scene);
+
+            // Menampilkan scene baru
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Tidak dapat membuka halaman Dashboard.");
+        }
     }
+
     
     /**
      * [FIX] Membaca file users.json dari path sistem file, bukan dari resources.
