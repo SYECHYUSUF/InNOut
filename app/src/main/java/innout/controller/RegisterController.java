@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -44,7 +45,7 @@ public class RegisterController {
     private void showLoginForm(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
-            AnchorPane loginRoot = loader.load();
+            VBox loginRoot = loader.load();
             Stage stage = (Stage) registerButton.getScene().getWindow();
             stage.setScene(new Scene(loginRoot, 400, 300));
         } catch (Exception e) {

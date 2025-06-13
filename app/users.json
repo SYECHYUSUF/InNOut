@@ -1,1 +1,14 @@
-[{"email":"admin@gmail.com","password":"123"},{"email":"fafas@gmail.com","password":"12345"},{"email":"admin@email.com","password":"111"}]
+[
+  {
+    "email": "admin@gmail.com",
+    "password": "123"
+  },
+  {
+    "email": "fafas@gmail.com",
+    "password": "12345"
+  },
+  {
+    "email": "admin@email.com",
+    "password": "111"
+  }
+]

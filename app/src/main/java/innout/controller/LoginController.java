@@ -7,9 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -46,7 +48,7 @@ public class LoginController {
     private void showRegisterForm(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/register.fxml"));
-            AnchorPane registerRoot = loader.load();
+            VBox registerRoot = loader.load();
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.setScene(new Scene(registerRoot, 400, 300));
         } catch (Exception e) {
@@ -59,14 +61,19 @@ public class LoginController {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.showAndWait();
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+            getClass().getResource("/style.css").toExternalForm());
+
+    alert.showAndWait();
     }
 
     // Navigasi langsung ke Admin Dashboard
     private void navigateToAdminDashboard(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin_dashboard.fxml"));
-            AnchorPane adminDashboardRoot = loader.load();
+            VBox adminDashboardRoot = loader.load();
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.setScene(new Scene(adminDashboardRoot, 600, 400));
         } catch (Exception e) {
