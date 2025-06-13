@@ -167,14 +167,6 @@ public class ManajemenEventController {
         } else {
             showAlert(Alert.AlertType.WARNING, "Peringatan", "Pilih event yang akan dihapus dari tabel!");
         }
-
-        // if (eventTerpilih != null) {
-        //     eventService.hapusEvent(eventTerpilih);
-        //     muatDanTampilkanEvent();
-        //     showAlert(Alert.AlertType.INFORMATION, "Sukses", "Event berhasil dihapus.");
-        // } else {
-        //     showAlert(Alert.AlertType.WARNING, "Pilih Event", "Pilih event yang ingin dihapus.");
-        // }
     }
 
     // Menampilkan alert
@@ -206,6 +198,7 @@ public class ManajemenEventController {
 
             // Mendapatkan stage (jendela aplikasi) yang sedang aktif
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            // stage.setFullScreen(true);
 
             // Menetapkan scene baru yang sudah dimuat dengan FXML
             Scene scene = new Scene(root, 600, 400);

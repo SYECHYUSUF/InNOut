@@ -1,10 +1,13 @@
 package innout.controller;
 
+import java.io.IOException;
+
 import innout.service.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Alert;
@@ -46,13 +49,21 @@ public class LoginController {
     private void showRegisterForm(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/register.fxml"));
-            AnchorPane registerRoot = loader.load();
+            Parent registerRoot = loader.load();
+
+            // Mendapatkan stage (jendela) yang sedang aktif
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(registerRoot, 400, 300));
-        } catch (Exception e) {
+            Scene scene = new Scene(registerRoot);
+
+            // Ganti scene untuk menampilkan form registrasi
+            stage.setScene(scene);
+            stage.setTitle("Register New User");
+            stage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -68,6 +79,7 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin_dashboard.fxml"));
             AnchorPane adminDashboardRoot = loader.load();
             Stage stage = (Stage) loginButton.getScene().getWindow();
+            // stage.setFullScreen(true);
             stage.setScene(new Scene(adminDashboardRoot, 600, 400));
         } catch (Exception e) {
             e.printStackTrace();

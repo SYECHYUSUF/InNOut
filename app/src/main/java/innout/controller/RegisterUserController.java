@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class RegisterController {
+public class RegisterUserController {
 
     @FXML
     private TextField emailField;
@@ -46,6 +46,7 @@ public class RegisterController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
             AnchorPane loginRoot = loader.load();
             Stage stage = (Stage) registerButton.getScene().getWindow();
+            // stage.setFullScreen(true);
             stage.setScene(new Scene(loginRoot, 400, 300));
         } catch (Exception e) {
             e.printStackTrace();

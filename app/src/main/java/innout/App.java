@@ -14,6 +14,7 @@ public class App extends Application {
         AnchorPane root = loader.load();
 
         // Menyiapkan stage
+        // primaryStage.setFullScreen(true);
         primaryStage.setTitle("Login System");
         primaryStage.setScene(new Scene(root, 400, 300));
         primaryStage.show();

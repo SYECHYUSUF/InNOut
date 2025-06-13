@@ -1,6 +1,7 @@
 package innout.service;
 
 import innout.model.User;
+import java.util.List;
 
 public class UserService {
 
@@ -22,5 +23,15 @@ public class UserService {
         } else {
             return "Email is already registered. Please choose another email.";
         }
+    }
+
+    // Mendapatkan daftar semua pengguna
+    public List<User> getAllUsers() {
+        return storageService.getAllUsers();  // Ambil semua user dari storage
+    }
+
+    // Menghapus pengguna
+    public boolean deleteUser(User user) {
+        return storageService.removeUser(user);  // Menghapus user dari storage
     }
 }

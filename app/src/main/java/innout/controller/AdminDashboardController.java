@@ -33,6 +33,7 @@ public class AdminDashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/manage_event.fxml"));
             BorderPane  eventRoot = loader.load();
             Stage stage = (Stage) manageEventButton.getScene().getWindow();
+            // stage.setFullScreen(true);
             stage.setScene(new Scene(eventRoot, 600, 400));
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,6 +45,7 @@ public class AdminDashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/manage_user.fxml"));
             BorderPane userRoot = loader.load();
             Stage stage = (Stage) manageUserButton.getScene().getWindow();
+            // stage.setFullScreen(true);
             stage.setScene(new Scene(userRoot, 600, 400));
         } catch (Exception e) {
             e.printStackTrace();

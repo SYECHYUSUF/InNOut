@@ -60,4 +60,18 @@ public class UserStorageService {
         }
         return null; // Jika tidak ditemukan, return null
     }
+
+    // Mengambil semua pengguna
+    public List<User> getAllUsers() {
+        return users;  // Mengembalikan daftar semua user
+    }
+
+    // Menghapus pengguna
+    public boolean removeUser(User user) {
+        boolean removed = users.remove(user);  // Menghapus user dari daftar
+        if (removed) {
+            saveUsers();  // Simpan perubahan setelah menghapus
+        }
+        return removed;
+    }
 }
