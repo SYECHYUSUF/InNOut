@@ -9,7 +9,7 @@
     -fx-accent-color: #0E639C;
     -fx-accent-hover-color: #1177BB;
     -fx-accent-text-color: #FFFFFF;
-    -fx-glass-color: rgba(37, 37, 38, 0.85);
+    -fx-glass-color: rgba(37, 37, 38, 0.85); /* Warna efek kaca untuk dialog/form */
     -fx-glass-border-color: rgba(128, 128, 128, 0.2);
     -fx-font-family: "System";
     -fx-background-color: #1E1E1E;
@@ -84,18 +84,59 @@
 .table-view .table-row-cell:selected .table-cell { -fx-text-fill: -fx-accent-text-color; }
 
 /* --- Gaya Dialog dengan Efek Kaca --- */
+/* Target dialog-pane secara umum, juga Alert */
 .dialog-pane {
-    -fx-background-color: -fx-glass-color;
+    -fx-background-color: -fx-glass-color; /* Warna kaca yang gelap */
     -fx-border-color: -fx-glass-border-color;
     -fx-border-width: 1.5px;
     -fx-background-radius: 10;
     -fx-border-radius: 10;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 3);
 }
-.dialog-pane .label { -fx-text-fill: #CCCCCC; }
-.dialog-pane .header-panel { -fx-background-color: transparent; }
-.dialog-pane .button { -fx-translate-y: 0; }
-.dialog-pane .button:hover { -fx-translate-y: -2; }
+
+/* Target elemen di dalam dialog pane untuk memastikan warna teks */
+.dialog-pane .label {
+    -fx-text-fill: -fx-main-text-color; /* Teks label di dialog menjadi abu-abu terang */
+    -fx-font-weight: normal; /* Untuk isi teks, tidak perlu bold */
+}
+
+/* Header panel di dalam Alert (area judul di bagian atas) */
+.dialog-pane .header-panel {
+    -fx-background-color: #2D2D2D; /* Latar belakang header lebih gelap dari konten */
+    -fx-background-radius: 10 10 0 0; /* Hanya sudut atas yang melengkung */
+}
+
+/* Label judul di dalam header panel Alert */
+.dialog-pane .header-panel .label {
+    -fx-text-fill: -fx-accent-text-color; /* Warna teks judul di header */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Content area di dalam Alert */
+.dialog-pane .content {
+    -fx-background-color: -fx-glass-color; /* Pastikan area konten juga gelap */
+    -fx-padding: 15px; /* Sesuaikan padding jika perlu */
+}
+
+/* Baris tombol di dalam Alert (jika ada tombol bawaan seperti OK) */
+.dialog-pane .button-bar {
+    -fx-background-color: #252526; /* Warna latar belakang baris tombol */
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+    -fx-alignment: CENTER_RIGHT; /* Sesuaikan alignment tombol OK */
+    -fx-background-radius: 0 0 10 10; /* Hanya sudut bawah yang melengkung */
+}
+
+/* Tombol di dalam dialog-pane (termasuk tombol bawaan OK) */
+.dialog-pane .button {
+    -fx-translate-y: 0; /* Reset translate-y dari hover global jika tidak diinginkan */
+    /* Akan mengambil gaya dari .button global */
+}
+.dialog-pane .button:hover {
+    -fx-translate-y: -2; /* Efek hover untuk tombol di dialog */
+}
+
 
 /* --- [BARU] Gaya untuk kolom numerik di tabel --- */
 .numeric-column .table-cell {
@@ -104,15 +145,19 @@
 }
 
 .card {
-    -fx-border-color: #ccc;
-    -fx-padding: 10px;
-    -fx-background-color: #f4f4f4;
-    -fx-border-radius: 10px;
+    -fx-background-color: #2D2D2D; /* Warna abu-abu gelap, sedikit lebih terang dari background utama */
+    -fx-border-color: #4A4A4A;     /* Border abu-abu yang lebih jelas */
+    -fx-padding: 15px;             /* Menambah padding sedikit */
     -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5); /* Efek bayangan lebih menonjol */
 }
 
 .card:hover {
-    -fx-background-color: #d0e7f1;  /* Warna saat mouse hover */
+    -fx-background-color: #3C3C3C; /* Warna saat mouse hover, sedikit lebih terang lagi */
+    -fx-border-color: -fx-accent-color; /* Border berubah warna saat hover */
+    -fx-effect: dropshadow(gaussian, -fx-accent-color, 15, 0, 0, 0); /* Efek glow accent */
+    -fx-translate-y: -3; /* Sedikit efek naik */
 }
 
 .tile-pane {
@@ -121,17 +166,14 @@
     -fx-padding: 20px;
 }
 
-.label {
-    -fx-font-size: 14px;
+.card .label {
+    -fx-text-fill: -fx-main-text-color;
+    -fx-font-weight: normal;
 }
 
-button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-border-radius: 5px;
-    -fx-padding: 5px;
-}
-
-button:hover {
-    -fx-background-color: #45a049;
+.card .card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-accent-color;
+    -fx-padding: 0 0 5px 0;
 }
