@@ -1,0 +1,104 @@
+/* --- [MODERN] Variabel & Gaya Global --- */
+.root {
+    -fx-main-bg: #1E1E1E;
+    -fx-main-text-color: #CCCCCC;
+    -fx-prompt-text-color: #757575;
+    -fx-input-bg: #3C3C3C;
+    -fx-input-border: #3C3C3C;
+    -fx-input-focused-border: #007ACC;
+    -fx-accent-color: #0E639C;
+    -fx-accent-hover-color: #1177BB;
+    -fx-accent-text-color: #FFFFFF;
+    -fx-glass-color: rgba(37, 37, 38, 0.85);
+    -fx-glass-border-color: rgba(128, 128, 128, 0.2);
+    -fx-font-family: "System";
+    -fx-background-color: -fx-main-bg;
+}
+/* --- Perbaikan Bug Latar Belakang Putih saat maximize --- */
+.transparent-pane { -fx-background-color: transparent; }
+/* --- [MODERN] Gaya "Card" untuk Form dengan Efek Kaca --- */
+.form-pane {
+    -fx-background-color: -fx-glass-color;
+    -fx-padding: 25;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: -fx-glass-border-color;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 3);
+}
+/* --- Gaya Global Teks & Judul --- */
+.label { -fx-text-fill: -fx-main-text-color; -fx-font-weight: bold; }
+.header-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: -fx-main-text-color; }
+/* --- Gaya Input Fields & Perbaikan Placeholder DatePicker --- */
+.text-field, .password-field, .date-picker .text-field {
+    -fx-background-color: -fx-input-bg;
+    -fx-text-fill: -fx-main-text-color;
+    -fx-prompt-text-fill: -fx-prompt-text-color;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: -fx-input-border;
+    -fx-border-width: 1;
+}
+.text-field:focused, .password-field:focused, .date-picker .text-field:focused {
+    -fx-border-color: -fx-input-focused-border;
+    -fx-border-width: 1.5;
+}
+/* --- [MODERN] Gaya Tombol dengan Animasi --- */
+.button {
+    -fx-background-color: -fx-accent-color;
+    -fx-text-fill: -fx-accent-text-color;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 10 18 10 18;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-transition: all 0.2s ease-in-out;
+}
+.button:hover {
+    -fx-background-color: -fx-accent-hover-color;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,122,204,0.4), 10, 0, 0, 0);
+    -fx-translate-y: -2;
+}
+/* --- Gaya Popup Kalender DatePicker --- */
+.date-picker-popup { -fx-background-color: #2D2D2D; -fx-border-color: -fx-input-focused-border; -fx-border-width: 1; }
+.date-picker-popup .month-year-pane { -fx-background-color: #252526; }
+.date-picker-popup .day-cell { -fx-text-fill: -fx-main-text-color; -fx-background-color: #2D2D2D; }
+.date-picker-popup .day-cell:hover { -fx-background-color: #4A4A4A; }
+.date-picker-popup .day-cell.today { -fx-border-color: -fx-main-text-color; -fx-border-width: 0 0 1 0; }
+.date-picker-popup .day-cell:selected { -fx-background-color: -fx-accent-color; -fx-text-fill: -fx-accent-text-color; }
+.date-picker-popup .spinner .label { -fx-text-fill: -fx-main-text-color; }
+.date-picker-popup .spinner .arrow-button .arrow { -fx-background-color: -fx-main-text-color; }
+
+/* --- Gaya TableView yang Ditingkatkan --- */
+.table-view {
+    -fx-background-color: -fx-input-bg;
+    -fx-border-color: -fx-glass-border-color;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+.table-view .column-header-background { -fx-background-color: -fx-glass-color; -fx-background-radius: 8 8 0 0; -fx-background-insets: 0; }
+.table-view .column-header, .table-view .filler { -fx-background-color: transparent; -fx-size: 40; }
+.table-view .column-header .label { -fx-text-fill: -fx-main-text-color; -fx-font-weight: bold; -fx-padding: 0 0 0 10; }
+.table-view .table-cell { -fx-text-fill: -fx-main-text-color; -fx-background-color: -fx-input-bg; -fx-border-color: transparent; -fx-padding: 1em; }
+.table-view .table-row-cell:hover { -fx-background-color: #4A4A4A; }
+.table-view .table-row-cell:selected { -fx-background-color: -fx-accent-color; }
+.table-view .table-row-cell:selected .table-cell { -fx-text-fill: -fx-accent-text-color; }
+
+/* --- Gaya Dialog dengan Efek Kaca --- */
+.dialog-pane {
+    -fx-background-color: -fx-glass-color;
+    -fx-border-color: -fx-glass-border-color;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 3);
+}
+.dialog-pane .label { -fx-text-fill: #CCCCCC; }
+.dialog-pane .header-panel { -fx-background-color: transparent; }
+.dialog-pane .button { -fx-translate-y: 0; }
+.dialog-pane .button:hover { -fx-translate-y: -2; }
+
+/* --- [BARU] Gaya untuk kolom numerik di tabel --- */
+.numeric-column .table-cell {
+    -fx-alignment: CENTER_RIGHT; /* Membuat teks rata kanan */
+    -fx-padding: 1em 0.8em 1em 1em; /* Menambah sedikit padding di kanan agar tidak mepet */
+}
