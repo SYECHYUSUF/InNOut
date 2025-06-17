@@ -1,4 +1,3 @@
-/* --- [MODERN] Variabel & Gaya Global --- */
 .root {
     -fx-main-bg: #1E1E1E;
     -fx-main-text-color: #CCCCCC;
@@ -9,14 +8,12 @@
     -fx-accent-color: #0E639C;
     -fx-accent-hover-color: #1177BB;
     -fx-accent-text-color: #FFFFFF;
-    -fx-glass-color: rgba(37, 37, 38, 0.85); /* Warna efek kaca untuk dialog/form */
+    -fx-glass-color: rgba(37, 37, 38, 0.85);
     -fx-glass-border-color: rgba(128, 128, 128, 0.2);
     -fx-font-family: "System";
     -fx-background-color: #1E1E1E;
 }
-/* --- Perbaikan Bug Latar Belakang Putih saat maximize --- */
 .transparent-pane { -fx-background-color: transparent; }
-/* --- [MODERN] Gaya "Card" untuk Form dengan Efek Kaca --- */
 .form-pane {
     -fx-background-color: -fx-glass-color;
     -fx-padding: 25;
@@ -25,10 +22,8 @@
     -fx-border-color: -fx-glass-border-color;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 3);
 }
-/* --- Gaya Global Teks & Judul --- */
 .label { -fx-text-fill: -fx-main-text-color; -fx-font-weight: bold; }
 .header-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: -fx-main-text-color; }
-/* --- Gaya Input Fields & Perbaikan Placeholder DatePicker --- */
 .text-field, .password-field, .date-picker .text-field {
     -fx-background-color: -fx-input-bg;
     -fx-text-fill: -fx-main-text-color;
@@ -42,7 +37,6 @@
     -fx-border-color: -fx-input-focused-border;
     -fx-border-width: 1.5;
 }
-/* --- [MODERN] Gaya Tombol dengan Animasi --- */
 .button {
     -fx-background-color: -fx-accent-color;
     -fx-text-fill: -fx-accent-text-color;
@@ -58,7 +52,6 @@
     -fx-effect: dropshadow(gaussian, rgba(0,122,204,0.4), 10, 0, 0, 0);
     -fx-translate-y: -2;
 }
-/* --- Gaya Popup Kalender DatePicker --- */
 .date-picker-popup { -fx-background-color: #2D2D2D; -fx-border-color: -fx-input-focused-border; -fx-border-width: 1; }
 .date-picker-popup .month-year-pane { -fx-background-color: #252526; }
 .date-picker-popup .day-cell { -fx-text-fill: -fx-main-text-color; -fx-background-color: #2D2D2D; }
@@ -68,7 +61,6 @@
 .date-picker-popup .spinner .label { -fx-text-fill: -fx-main-text-color; }
 .date-picker-popup .spinner .arrow-button .arrow { -fx-background-color: -fx-main-text-color; }
 
-/* --- Gaya TableView yang Ditingkatkan --- */
 .table-view {
     -fx-background-color: -fx-input-bg;
     -fx-border-color: -fx-glass-border-color;
@@ -83,10 +75,8 @@
 .table-view .table-row-cell:selected { -fx-background-color: -fx-accent-color; }
 .table-view .table-row-cell:selected .table-cell { -fx-text-fill: -fx-accent-text-color; }
 
-/* --- Gaya Dialog dengan Efek Kaca --- */
-/* Target dialog-pane secara umum, juga Alert */
 .dialog-pane {
-    -fx-background-color: -fx-glass-color; /* Warna kaca yang gelap */
+    -fx-background-color: -fx-glass-color;
     -fx-border-color: -fx-glass-border-color;
     -fx-border-width: 1.5px;
     -fx-background-radius: 10;
@@ -94,70 +84,63 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 3);
 }
 
-/* Target elemen di dalam dialog pane untuk memastikan warna teks */
 .dialog-pane .label {
-    -fx-text-fill: -fx-main-text-color; /* Teks label di dialog menjadi abu-abu terang */
-    -fx-font-weight: normal; /* Untuk isi teks, tidak perlu bold */
+    -fx-text-fill: -fx-main-text-color;
+    -fx-font-weight: normal;
 }
 
-/* Header panel di dalam Alert (area judul di bagian atas) */
 .dialog-pane .header-panel {
-    -fx-background-color: #2D2D2D; /* Latar belakang header lebih gelap dari konten */
-    -fx-background-radius: 10 10 0 0; /* Hanya sudut atas yang melengkung */
+    -fx-background-color: #2D2D2D;
+    -fx-background-radius: 10 10 0 0;
 }
 
-/* Label judul di dalam header panel Alert */
 .dialog-pane .header-panel .label {
-    -fx-text-fill: -fx-accent-text-color; /* Warna teks judul di header */
+    -fx-text-fill: -fx-accent-text-color;
     -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
 
-/* Content area di dalam Alert */
 .dialog-pane .content {
-    -fx-background-color: -fx-glass-color; /* Pastikan area konten juga gelap */
-    -fx-padding: 15px; /* Sesuaikan padding jika perlu */
+    -fx-background-color: -fx-glass-color;
+    -fx-padding: 15px;
 }
 
-/* Baris tombol di dalam Alert (jika ada tombol bawaan seperti OK) */
 .dialog-pane .button-bar {
-    -fx-background-color: #252526; /* Warna latar belakang baris tombol */
+    -fx-background-color: #252526;
     -fx-padding: 10px;
     -fx-spacing: 10px;
-    -fx-alignment: CENTER_RIGHT; /* Sesuaikan alignment tombol OK */
-    -fx-background-radius: 0 0 10 10; /* Hanya sudut bawah yang melengkung */
+    -fx-alignment: CENTER_RIGHT;
+    -fx-background-radius: 0 0 10 10;
 }
 
-/* Tombol di dalam dialog-pane (termasuk tombol bawaan OK) */
 .dialog-pane .button {
-    -fx-translate-y: 0; /* Reset translate-y dari hover global jika tidak diinginkan */
-    /* Akan mengambil gaya dari .button global */
+    -fx-translate-y: 0;
+
 }
 .dialog-pane .button:hover {
-    -fx-translate-y: -2; /* Efek hover untuk tombol di dialog */
+    -fx-translate-y: -2;
 }
 
 
-/* --- [BARU] Gaya untuk kolom numerik di tabel --- */
 .numeric-column .table-cell {
-    -fx-alignment: CENTER_RIGHT; /* Membuat teks rata kanan */
-    -fx-padding: 1em 0.8em 1em 1em; /* Menambah sedikit padding di kanan agar tidak mepet */
+    -fx-alignment: CENTER_RIGHT;
+    -fx-padding: 1em 0.8em 1em 1em;
 }
 
 .card {
-    -fx-background-color: #2D2D2D; /* Warna abu-abu gelap, sedikit lebih terang dari background utama */
-    -fx-border-color: #4A4A4A;     /* Border abu-abu yang lebih jelas */
-    -fx-padding: 15px;             /* Menambah padding sedikit */
+    -fx-background-color: #2D2D2D;
+    -fx-border-color: #4A4A4A;
+    -fx-padding: 15px;
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5); /* Efek bayangan lebih menonjol */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5);
 }
 
 .card:hover {
-    -fx-background-color: #3C3C3C; /* Warna saat mouse hover, sedikit lebih terang lagi */
-    -fx-border-color: -fx-accent-color; /* Border berubah warna saat hover */
-    -fx-effect: dropshadow(gaussian, -fx-accent-color, 15, 0, 0, 0); /* Efek glow accent */
-    -fx-translate-y: -3; /* Sedikit efek naik */
+    -fx-background-color: #3C3C3C;
+    -fx-border-color: -fx-accent-color;
+    -fx-effect: dropshadow(gaussian, -fx-accent-color, 15, 0, 0, 0);
+    -fx-translate-y: -3;
 }
 
 .tile-pane {

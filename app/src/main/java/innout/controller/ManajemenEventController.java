@@ -102,7 +102,7 @@ public class ManajemenEventController {
             Event eventBaru = new Event(namaEvent, tanggal, lokasi, deskripsi, jumlahTiket);
 
             eventService.tambahEvent(eventBaru);
-            showAlert(Alert.AlertType.INFORMATION, "Sukses", "Jadwal sesi baru berhasil ditambahkan.");
+            showAlert(Alert.AlertType.INFORMATION, "Sukses", "Event baru berhasil ditambahkan.");
         } else {
             editEvent.setNamaEvent(namaEvent);
             editEvent.setTanggal(tanggal);

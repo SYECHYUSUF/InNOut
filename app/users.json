@@ -6,11 +6,6 @@
   },
   {
     "typeUser": "User",
-    "email": "c@gmail.com",
-    "password": "1111"
-  },
-  {
-    "typeUser": "User",
     "email": "r@gmail.com",
     "password": "123"
   },
@@ -18,5 +13,10 @@
     "typeUser": "User",
     "email": "fs@gmail.com",
     "password": "1"
+  },
+  {
+    "typeUser": "User",
+    "email": "c@gmail.com",
+    "password": "1111"
   }
 ]
