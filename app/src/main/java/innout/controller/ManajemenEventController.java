@@ -1,11 +1,11 @@
 package innout.controller;
 
+import innout.model.Event;
+import innout.service.EventService;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
-
-import innout.model.Event;
-import innout.service.EventService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,7 +24,6 @@ import javafx.stage.Stage;
 
 public class ManajemenEventController {
 
-    // Deklarasi @FXML untuk elemen UI
     @FXML private TableView<Event> eventTableView;
     @FXML private TableColumn<Event, String> kolomNamaEvent;
     @FXML private TableColumn<Event, String> kolomTanggal;
@@ -51,31 +50,23 @@ public class ManajemenEventController {
 
     @FXML
     public void initialize() {
-        // Konfigurasi cell factory untuk setiap kolom (kode Anda yang sudah ada)
         kolomNamaEvent.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNamaEvent()));
         kolomTanggal.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTanggal()));
         kolomLokasi.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getLokasi()));
         kolomDeskripsi.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDeskripsi()));
         kolomJumlahTiket.setCellValueFactory(cellData -> new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getJumlahTiket()).asObject());
 
-        // --- MULAI KODE BARU UNTUK UKURAN KOLOM OTOMATIS ---
 
-        // Atur agar lebar setiap kolom terikat pada persentase lebar TableView.
-        // Angka-angka ini (0.25, 0.15, dll.) adalah persentase. Anda bisa mengubahnya.
-        // Total persentase sebaiknya sedikit di bawah 1.0 (misal, 0.99) untuk menghindari scrollbar horizontal.
-        kolomNamaEvent.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.25));   // 25%
-        kolomTanggal.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.15));     // 15%
-        kolomLokasi.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.20));       // 20%
-        kolomDeskripsi.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.25));    // 25%
-        kolomJumlahTiket.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.14));  // 14%
-
-        // --- SELESAI KODE BARU ---
+        kolomNamaEvent.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.25));
+        kolomTanggal.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.15));
+        kolomLokasi.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.20));
+        kolomDeskripsi.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.25));
+        kolomJumlahTiket.prefWidthProperty().bind(eventTableView.widthProperty().multiply(0.14));
 
 
-        // Muat dan tampilkan event (kode Anda yang sudah ada)
+
         muatDanTampilkanEvent();
 
-        // Tambahkan listener ke TableView (kode Anda yang sudah ada)
         eventTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
                     if (newSelection != null) {
@@ -87,13 +78,11 @@ public class ManajemenEventController {
         );
     }
 
-    // Memuat data event dan menampilkan di tabel
     private void muatDanTampilkanEvent() {
         daftarEventObservable = FXCollections.observableArrayList(eventService.muatSemuaEvent());
         eventTableView.setItems(daftarEventObservable);
     }
 
-    // Menambahkan event baru
     @FXML
     private void handleTambahEventButtonAction(ActionEvent event) {
         String namaEvent = namaEventField.getText().trim();
@@ -103,22 +92,15 @@ public class ManajemenEventController {
         String jumlahTiketStr = jumlahTiketField.getText().trim();
         int jumlahTiket = Integer.parseInt(jumlahTiketStr);
 
-        // Validasi input
         if (namaEvent.isEmpty() || tanggal.isEmpty() || lokasi.isEmpty() || deskripsi.isEmpty() || jumlahTiketStr.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Input Tidak Valid", "Semua field harus diisi.");
             return;
         }
 
         if (editEvent == null) {
-            // String namaDeskriptifSesi = mapel.getNamaMapel() + " (" + hari + ")";
-            // Event newEvent = new Event(namaEvent, tanggal, lokasi, deskripsi, jumlahTiket);
 
             Event eventBaru = new Event(namaEvent, tanggal, lokasi, deskripsi, jumlahTiket);
 
-            // if (dataAplikasiSaatIni.getDaftarSesi() == null) {
-            //     dataAplikasiSaatIni.setDaftarSesi(FXCollections.observableArrayList());
-            // }
-            // dataAplikasiSaatIni.getDaftarSesi().add(sesiBaru);
             eventService.tambahEvent(eventBaru);
             showAlert(Alert.AlertType.INFORMATION, "Sukses", "Jadwal sesi baru berhasil ditambahkan.");
         } else {
@@ -127,11 +109,6 @@ public class ManajemenEventController {
             editEvent.setLokasi(lokasi);
             editEvent.setDeskripsi(deskripsi);
             editEvent.setJumlahTiket(jumlahTiket);
-            // editEvent.setHari(namaEvent);
-            // editEvent.setWaktuMulai(tanggal);
-            // editEvent.setWaktuSelesai(lokasi);
-            // editEvent.setMataPelajaran(deskripsi);
-            // editEvent.setRuangan(jumlahTiketStr);
             eventService.updateEvent(editEvent);
             showAlert(Alert.AlertType.INFORMATION, "Sukses", "Event berhasil diperbarui.");
         }
@@ -140,7 +117,6 @@ public class ManajemenEventController {
         bersihkanForm();
     }
 
-    // Mengedit event yang dipilih
     @FXML
     private void handleEditEventButtonAction(ActionEvent event) {
         Event eventTerpilih = eventTableView.getSelectionModel().getSelectedItem();
@@ -159,7 +135,6 @@ public class ManajemenEventController {
         }
     }
 
-    // Menghapus event yang dipilih
     @FXML
     private void handleHapusEventButtonAction(ActionEvent event) {
         Event eventTerpilih = eventTableView.getSelectionModel().getSelectedItem();
@@ -183,7 +158,6 @@ public class ManajemenEventController {
         }
     }
 
-    // Menampilkan alert
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -192,7 +166,6 @@ public class ManajemenEventController {
         alert.showAndWait();
     }
 
-    // Membersihkan form input
     private void bersihkanForm() {
         namaEventField.clear();
         tanggalEventPicker.setValue(null);
@@ -204,21 +177,15 @@ public class ManajemenEventController {
 
     @FXML
     private void handleKembaliKeDashboardButtonAction(ActionEvent event) {
-        // Cobalah untuk memuat file FXML Dashboard Admin
         try {
-            // Memuat file FXML untuk halaman Dashboard
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin_dashboard.fxml"));
             Parent root = loader.load();
 
-            // Mendapatkan stage (jendela aplikasi) yang sedang aktif
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            // stage.setFullScreen(true);
 
-            // Menetapkan scene baru yang sudah dimuat dengan FXML
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 600, 400);
             stage.setScene(scene);
 
-            // Menampilkan scene baru
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

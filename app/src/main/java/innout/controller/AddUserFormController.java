@@ -1,6 +1,5 @@
 package innout.controller;
 
-import innout.model.User;
 import innout.service.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,15 +11,10 @@ import javafx.stage.Stage;
 
 public class AddUserFormController {
 
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField passwordField;
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
 
-    private UserService userService = new UserService();
-
-    // Metode ini akan dipanggil saat tombol "Register" ditekan
-   @FXML
+    @FXML
     void handleRegisterAction(ActionEvent event) {
         String email = emailField.getText();
         String password = passwordField.getText();
@@ -30,37 +24,27 @@ public class AddUserFormController {
             return;
         }
 
-        String registrationResult = userService.registerUser(email, password);
+        boolean result = UserService.registerUser(email, password);
+        String message = result ? "Registration successful! You can now log in." : "Email is already registered. Please choose another email.";
 
-        // --- UBAH KONDISI IF DI SINI ---
-        // Cocokkan dengan pesan sukses yang sebenarnya dari service Anda.
-        if ("Registration successful! You can now log in.".equalsIgnoreCase(registrationResult)) {
-            
-            // Sekarang blok ini akan dijalankan saat sukses
-            // Kita bisa gunakan pesan suksesnya langsung di alert
-            showAlert(Alert.AlertType.INFORMATION, "Success", registrationResult); 
-            
+        if (result) {
+            showAlert(Alert.AlertType.INFORMATION, "Success", message);
             closeWindow(event);
-
         } else {
-            // Blok ini sekarang hanya akan dijalankan jika ada pesan error asli
-            showAlert(Alert.AlertType.ERROR, "Registration Failed", registrationResult);
+            showAlert(Alert.AlertType.ERROR, "Registration Failed", message);
         }
     }
 
-    // Metode ini akan dipanggil saat tombol "Cancel" ditekan
     @FXML
     void handleCancelAction(ActionEvent event) {
         closeWindow(event);
     }
 
-    // Metode bantuan untuk menutup jendela
     private void closeWindow(ActionEvent event) {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }
-    
-    // Metode bantuan untuk menampilkan alert
+
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

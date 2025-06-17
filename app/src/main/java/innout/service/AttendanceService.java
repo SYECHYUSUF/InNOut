@@ -27,7 +27,6 @@ public class AttendanceService {
         }
     }
 
-    // Menyimpan data kehadiran ke file attendance
     public void saveAttendanceData(List<Attendance> attendanceList) {
         try (Writer writer = new FileWriter(ATTENDANCE_FILE)) {
             Gson gson = new Gson();
@@ -37,26 +36,20 @@ public class AttendanceService {
         }
     }
 
-        // Fungsi untuk memeriksa apakah pengguna sudah hadir pada event tertentu
     public boolean checkAttendance(String userEmail, String eventName) {
-        // Muat data kehadiran dari file
         List<Attendance> attendanceList = loadAttendanceData();
 
-        // Mencari user berdasarkan email
         for (Attendance attendance : attendanceList) {
             if (attendance.getUser().equals(userEmail)) {
-                // Cek jika event tersebut ada dalam daftar event yang dibeli oleh pengguna
                 return attendance.getEvents().getOrDefault(eventName, false);
             }
         }
-        return false; // Jika pengguna tidak ditemukan atau event tidak ada, return false (belum hadir)
+        return false;
     }
 
-    // Memperbarui status kehadiran event untuk pengguna berdasarkan email
-    public void updateAttendance(String userEmail, String eventName) {
+    public void updateAttendance(String userEmail, String eventName, Boolean attend) {
         List<Attendance> attendanceList = loadAttendanceData();
 
-        // Jika data attendance kosong atau tidak ada, buat data baru
         if (attendanceList == null) {
             attendanceList = new ArrayList<>();
         }
@@ -65,21 +58,18 @@ public class AttendanceService {
 
         for (Attendance attendance : attendanceList) {
             if (attendance.getUser().equals(userEmail)) {
-                // Update status kehadiran event
                 Map<String, Boolean> events = attendance.getEvents();
-                events.put(eventName, true);  // Set event attendance to true
+                events.put(eventName, attend);
                 userFound = true;
                 break;
             }
         }
 
-        // Jika user tidak ditemukan, buat data baru untuk user
         if (!userFound) {
             Attendance newAttendance = new Attendance(userEmail, Map.of(eventName, true));
             attendanceList.add(newAttendance);
         }
 
-        // Simpan data yang sudah diperbarui
         saveAttendanceData(attendanceList);
     }
 }

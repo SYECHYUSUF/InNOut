@@ -9,11 +9,12 @@
 
 <VBox alignment="CENTER" spacing="15.0" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.LoginController">
    <children>
-      <TextField fx:id="emailField" maxWidth="200.0" promptText="Email" />
-      <PasswordField fx:id="passwordField" maxWidth="200.0" promptText="Password" />
-      <Button fx:id="loginButton" onAction="#handleLogin" text="Login" />
+      <TextField fx:id="emailField" maxWidth="250.0" promptText="Email" />
+      <PasswordField fx:id="passwordField" maxWidth="250.0" promptText="Password" />
+      <Button fx:id="loginButton" maxWidth="250.0" onAction="#handleLogin" text="Login" />
       <Hyperlink onAction="#showRegisterForm" text="Don't have an account? Register here" />
    </children>
+
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>

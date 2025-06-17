@@ -1,15 +1,13 @@
 package innout.controller;
 
-import java.io.IOException;
-
 import innout.service.UserService;
+
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -20,41 +18,33 @@ import javafx.scene.control.TextField;
 
 public class LoginController {
 
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Button loginButton;
-
-    private UserService userService = new UserService();
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private Button loginButton;
 
     @FXML
     private void handleLogin(ActionEvent event) {
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        if (userService.loginUser(email, password)) {
-            if (email.equals("admin@email.com")) {
+        if (UserService.loginUser(email, password)) {
+            boolean isAdmin = UserService.isAdmin();
+
+            if (isAdmin) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin_dashboard.fxml"));
                     VBox adminDashboardRoot = loader.load();
                     Stage stage = (Stage) loginButton.getScene().getWindow();
-                    // stage.setFullScreen(true);
                     stage.setScene(new Scene(adminDashboardRoot, 600, 400));
                 } catch (Exception e) {
                     e.printStackTrace();
                     showAlert("Navigation Error", "Could not load the Admin Dashboard.");
                 }
             } else {
-
-                // showAlert("Login Successful", "Welcome " + email + "!");
-                // Navigasi ke halaman user dashboard atau halaman lain jika diperlukan
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/user_dashboard.fxml"));
                     VBox userDashboardRoot = loader.load();
                     Stage stage = (Stage) loginButton.getScene().getWindow();
-                    // stage.setFullScreen(true);
                     stage.setScene(new Scene(userDashboardRoot, 600, 400));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -72,9 +62,8 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/register.fxml"));
             VBox registerRoot = loader.load();
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            Scene scene = new Scene(registerRoot);
+            Scene scene = new Scene(registerRoot, 600, 400);
 
-            // Ganti scene untuk menampilkan form registrasi
             stage.setScene(scene);
             stage.setTitle("Register New User");
             stage.show();
@@ -96,18 +85,4 @@ public class LoginController {
 
     alert.showAndWait();
     }
-
-    // // Navigasi langsung ke Admin Dashboard
-    // private void navigateToAdminDashboard(ActionEvent event) {
-    //     try {
-    //         FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin_dashboard.fxml"));
-    //         VBox adminDashboardRoot = loader.load();
-    //         Stage stage = (Stage) loginButton.getScene().getWindow();
-    //         // stage.setFullScreen(true);
-    //         stage.setScene(new Scene(adminDashboardRoot, 600, 400));
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         showAlert("Navigation Error", "Could not load the Admin Dashboard.");
-    //     }
-    // }
 }

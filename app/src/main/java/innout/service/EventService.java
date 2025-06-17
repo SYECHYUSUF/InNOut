@@ -13,7 +13,6 @@ public class EventService {
 
     private static final String EVENT_FILE = "events.json";
 
-    // Muat semua event
     public List<Event> muatSemuaEvent() {
         try (Reader reader = new FileReader(EVENT_FILE)) {
             Gson gson = new Gson();
@@ -27,7 +26,6 @@ public class EventService {
         }
     }
 
-    // Simpan event ke file
     public void simpanSemuaEvent(List<Event> eventList) {
         try (Writer writer = new FileWriter(EVENT_FILE)) {
             Gson gson = new Gson();
@@ -37,14 +35,12 @@ public class EventService {
         }
     }
 
-    // Tambah event baru
     public void tambahEvent(Event event) {
         List<Event> eventList = muatSemuaEvent();
         eventList.add(event);
         simpanSemuaEvent(eventList);
     }
 
-    // Hapus event
     public void hapusEvent(Event event) {
         List<Event> eventList = muatSemuaEvent();
         boolean isRemoved = eventList.removeIf(e -> e.equals(event));
@@ -55,7 +51,6 @@ public class EventService {
         }
     }
 
-    // Update event
     public void updateEvent(Event updatedEvent) {
         List<Event> eventList = muatSemuaEvent();
         for (int i = 0; i < eventList.size(); i++) {
@@ -67,14 +62,13 @@ public class EventService {
         }
     }
 
-    // Membeli tiket untuk event
     public boolean beliTiket(Event event, String pembeli) {
         if (event.isTiketAvailable()) {
             event.tambahPembeli(pembeli);
-            updateEvent(event);  // Simpan perubahan
+            updateEvent(event);
             return true;
         } else {
-            return false;  // Tidak ada tiket tersedia
+            return false;
         }
     }
 }

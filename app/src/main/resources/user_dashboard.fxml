@@ -15,6 +15,7 @@
     <VBox alignment="CENTER" spacing="15.0"> <Button fx:id="katalogEventButton" onAction="#handleKatalogEventAction" text="Katalog Event" styleClass="button" maxWidth="200" />
         <Button fx:id="presentInButton" onAction="#handlePresentInAction" text="Present In" styleClass="button" maxWidth="200" />
         <Button fx:id="logEventButton" onAction="#handleLogEventAction" text="Log Event" styleClass="button" maxWidth="200" />
+        <Button fx:id="logoutButton" onAction="#logoutHandle" text="Log Out" maxWidth="200.0" />
     </VBox>
 
     <padding>

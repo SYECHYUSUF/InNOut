@@ -15,29 +15,24 @@ import javafx.scene.control.TextField;
 
 public class RegisterUserController {
 
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Button registerButton;
-
-    private UserService userService = new UserService();
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private Button registerButton;
 
     @FXML
     private void handleRegister(ActionEvent event) {
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        // Validasi input kosong
         if (email.isEmpty() || password.isEmpty()) {
             showAlert("Registration Failed", "Please fill in all fields.");
             return;
         }
 
-        // Cek apakah email sudah terdaftar
-        String result = userService.registerUser(email, password);
-        showAlert("Registration", result);  // Tampilkan hasil registrasi
+        boolean result = UserService.registerUser(email, password);
+        String message = result ? "Registration successful! You can now log in." : "Email is already registered. Please choose another email.";
+
+        showAlert("Registration", message);
     }
 
     @FXML
@@ -46,8 +41,7 @@ public class RegisterUserController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
             VBox loginRoot = loader.load();
             Stage stage = (Stage) registerButton.getScene().getWindow();
-            // stage.setFullScreen(true);
-            stage.setScene(new Scene(loginRoot, 400, 300));
+            stage.setScene(new Scene(loginRoot, 600, 400));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -8,6 +8,7 @@
    <children>
       <Button fx:id="manageEventButton" onAction="#handleManageEvent" text="Manage Event" maxWidth="150.0" />
       <Button fx:id="manageUserButton" onAction="#handleManageUser" text="Manage User" maxWidth="150.0" />
+      <Button fx:id="logoutButton" onAction="#logoutHandle" text="Log Out" maxWidth="150.0" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

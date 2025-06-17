@@ -3,7 +3,7 @@ package innout.controller;
 import innout.model.Event;
 import innout.service.EventService;
 import innout.service.AttendanceService;
-import innout.service.UserService; // Import UserService
+import innout.service.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,32 +16,27 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.geometry.Insets; // Import Insets
-import javafx.geometry.Pos; // Import Pos
-import javafx.scene.image.ImageView; // Import ImageView
-import javafx.scene.layout.HBox; // Import HBox
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Collections; // Untuk empty list jika pembeli null
+import java.util.Collections;
 
 public class LogEventController {
 
     @FXML
-    private TilePane eventTilePane; // Pane untuk menampung kartu event yang dihadiri
+    private TilePane eventTilePane;
 
-    private EventService eventService = new EventService(); // Service untuk mengambil data event
-    private AttendanceService attendanceService = new AttendanceService(); // Service untuk memeriksa kehadiran
+    private EventService eventService = new EventService();
+    private AttendanceService attendanceService = new AttendanceService();
 
-    // Metode ini dipanggil saat halaman Log Event dimuat
     public void initialize() {
-        loadAttendedEvents(); // Menampilkan event yang sudah dihadiri
+        loadAttendedEvents();
     }
 
-    // Menampilkan event yang sudah dihadiri oleh pengguna
     private void loadAttendedEvents() {
-        // Dapatkan email pengguna yang sedang login dari UserService
-        // PENTING: Pastikan UserService.getCurrentUserEmail() mengembalikan email yang benar
         String userEmail = UserService.getCurrentUserEmail();
 
         if (userEmail == null || userEmail.isEmpty()) {
@@ -49,25 +44,19 @@ public class LogEventController {
             return;
         }
 
-        List<Event> allEvents = eventService.muatSemuaEvent(); // Ambil semua event
-        eventTilePane.getChildren().clear(); // Clear semua kartu event yang ada sebelumnya
+        List<Event> allEvents = eventService.muatSemuaEvent();
+        eventTilePane.getChildren().clear();
 
         if (allEvents.isEmpty()) {
-            // Opsional: Tampilkan pesan di UI jika tidak ada event
-            // Label noEventsLabel = new Label("Tidak ada event yang tersedia.");
-            // eventTilePane.getChildren().add(noEventsLabel);
         }
 
-        // Loop untuk menampilkan kartu hanya untuk event yang sudah dihadiri
         for (Event event : allEvents) {
-            // Mengelola potensi null pada event.getPembeli()
             List<String> eventPembeli = (event.getPembeli() != null) ? event.getPembeli() : Collections.emptyList();
 
-            // Cek apakah pengguna ini sudah membeli tiket event DAN sudah hadir
             boolean isPurchasedByUser = eventPembeli.contains(userEmail);
             boolean hasAttended = attendanceService.checkAttendance(userEmail, event.getNamaEvent());
-            
-            if (isPurchasedByUser && hasAttended) { // Hanya tampilkan jika sudah dibeli DAN sudah hadir
+
+            if (isPurchasedByUser && hasAttended) {
                 StackPane eventCard = createEventCard(event);
                 eventTilePane.getChildren().add(eventCard);
             }
@@ -78,10 +67,9 @@ public class LogEventController {
     private void handleBackToDashboard(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            // PENTING: Sesuaikan PATH ini dengan lokasi AKTUAL file UserDashboard.fxml Anda
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/user_dashboard.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 600, 400);
             stage.setScene(scene);
             stage.setTitle("User Dashboard");
             stage.show();
@@ -92,7 +80,6 @@ public class LogEventController {
         }
     }
 
-    // Membuat kartu event untuk satu event yang dihadiri
     private StackPane createEventCard(Event event) {
         StackPane card = new StackPane();
         card.getStyleClass().add("card");

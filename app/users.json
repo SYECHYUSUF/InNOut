@@ -1,18 +1,22 @@
 [
   {
-    "email": "admin@gmail.com",
-    "password": "123"
-  },
-  {
-    "email": "fs@gmail.com",
-    "password": "1"
-  },
-  {
+    "typeUser": "Admin",
     "email": "admin@email.com",
     "password": "111"
   },
   {
+    "typeUser": "User",
     "email": "c@gmail.com",
     "password": "1111"
+  },
+  {
+    "typeUser": "User",
+    "email": "r@gmail.com",
+    "password": "123"
+  },
+  {
+    "typeUser": "User",
+    "email": "fs@gmail.com",
+    "password": "1"
   }
 ]

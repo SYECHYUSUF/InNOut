@@ -5,8 +5,8 @@ import innout.service.EventService;
 import innout.service.AttendanceService;
 import innout.service.UserService;
 import javafx.fxml.FXML;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -16,7 +16,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.image.ImageView;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -25,6 +24,7 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class PresentInEventController {
 
@@ -102,43 +102,50 @@ public class PresentInEventController {
         return card;
     }
 
-    private void handlePresentIn(Event event) {
-        Alert alert = new Alert(AlertType.NONE); // UBAH KE ALERT TYPE NONE
+    private void handlePresentIn(Event event) { // Tambahkan ActionEvent parameter
+        Alert alert = new Alert(AlertType.NONE);
         alert.setTitle("Konfirmasi Kehadiran Event");
-        alert.setHeaderText(null); // Set ke null
+        alert.setHeaderText(null);
+
+        // --- Setel Owner Window (penting!) ---
+        // Stage ownerStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        // if (ownerStage != null) {
+        //     alert.initOwner(ownerStage);
+        // }
 
         alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         alert.getDialogPane().getStyleClass().add("dialog-pane");
-
-        // Tidak perlu lookup icon lagi karena AlertType.NONE tidak punya ikon bawaan
-        // ImageView icon = (ImageView) alert.getDialogPane().lookup(".alert.confirmation.icon");
-        // if (icon != null) { ... }
 
         Label contentTextLabel = new Label("Apakah Anda yakin ingin menandai kehadiran Anda untuk event ini?\n\nEvent: " + event.getNamaEvent() + "\nLokasi: " + event.getLokasi());
         contentTextLabel.setWrapText(true);
         contentTextLabel.getStyleClass().add("label");
         contentTextLabel.setAlignment(Pos.CENTER);
 
-        // Hapus alert.getButtonTypes().clear(); karena AlertType.NONE tidak punya ButtonType bawaan
+        // --- Definisikan ButtonType kustom ---
+        ButtonType confirmButtonType = new ButtonType("Konfirmasi");
+        ButtonType cancelButtonType = ButtonType.CANCEL; // Menggunakan ButtonType.CANCEL standar
 
+        // --- Tambahkan ButtonType ini ke DialogPane Alert (Ini Kunci!) ---
+        // alert.getDialogPane().getButtonTypes().addAll(confirmButtonType, cancelButtonType);
+
+        // --- Buat Tombol Visual Kustom ---
         Button buttonConfirm = new Button("Konfirmasi");
         buttonConfirm.getStyleClass().add("button");
         Button buttonCancel = new Button("Batal");
         buttonCancel.getStyleClass().add("button");
 
+        // --- Atur Aksi untuk Tombol Visual ---
         buttonConfirm.setOnAction(e -> {
-            String userEmail = UserService.getCurrentUserEmail();
-            if (userEmail != null && !userEmail.isEmpty()) {
-                attendanceService.updateAttendance(userEmail, event.getNamaEvent());
-                loadPurchasedEvents();
-                showAlert("Sukses", "Anda telah berhasil menandai kehadiran Anda untuk event: " + event.getNamaEvent());
-            } else {
-                showAlert("Gagal", "Tidak dapat menandai kehadiran. Pengguna belum login atau email tidak tersedia.");
-            }
-            alert.close(); // Pastikan alert ini ditutup setelah aksi
+            // Ketika tombol diklik, set hasil Alert dan kemudian tutup Alert
+            alert.setResult(confirmButtonType);
+            alert.close();
         });
 
-        buttonCancel.setOnAction(e -> alert.close());
+        buttonCancel.setOnAction(e -> {
+            // Ketika tombol dibatalkan, set hasil Alert dan kemudian tutup Alert
+            alert.setResult(cancelButtonType);
+            alert.close();
+        });
 
         HBox buttonBox = new HBox(10, buttonConfirm, buttonCancel);
         buttonBox.setAlignment(Pos.CENTER);
@@ -151,43 +158,94 @@ public class PresentInEventController {
 
         alert.getDialogPane().setContent(dialogContent);
 
-        alert.showAndWait();
+        // --- Tampilkan Alert dan Tangani Hasilnya Setelah Ditutup ---
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // Logika bisnis dijalankan HANYA JIKA Alert berhasil ditutup dan tombol Konfirmasi dipilih
+        if (result.isPresent() && result.get() == confirmButtonType) {
+            String userEmail = null;
+            if (UserService.getCurrentUserEmail() != null) {
+                userEmail = UserService.getCurrentUserEmail(); // Menggunakan metode yang benar
+            }
+
+            if (userEmail != null && !userEmail.isEmpty()) {
+                attendanceService.updateAttendance(userEmail, event.getNamaEvent(), true); // Asumsi AttendanceService ada
+                loadPurchasedEvents(); // Muat ulang daftar event setelah kehadiran ditandai
+                showAlert("Sukses", "Anda telah berhasil menandai kehadiran Anda untuk event: " + event.getNamaEvent());
+            } else {
+                showAlert("Gagal", "Tidak dapat menandai kehadiran. Pengguna belum login atau email tidak tersedia.");
+            }
+        } else {
+            // User membatalkan atau menutup dialog tanpa konfirmasi
+            System.out.println("Penandaan kehadiran dibatalkan.");
+        }
     }
 
+
+    // private void handlePresentIn(Event event) {
+    //     Alert alert = new Alert(AlertType.NONE);
+    //     alert.setTitle("Konfirmasi Kehadiran Event");
+    //     alert.setHeaderText(null);
+
+    //     alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+    //     alert.getDialogPane().getStyleClass().add("dialog-pane");
+
+    //     Label contentTextLabel = new Label("Apakah Anda yakin ingin menandai kehadiran Anda untuk event ini?\n\nEvent: " + event.getNamaEvent() + "\nLokasi: " + event.getLokasi());
+    //     contentTextLabel.setWrapText(true);
+    //     contentTextLabel.getStyleClass().add("label");
+    //     contentTextLabel.setAlignment(Pos.CENTER);
+
+    //     Button buttonConfirm = new Button("Konfirmasi");
+    //     buttonConfirm.getStyleClass().add("button");
+    //     Button buttonCancel = new Button("Batal");
+    //     buttonCancel.getStyleClass().add("button");
+
+    //     buttonConfirm.setOnAction(e -> {
+    //         String userEmail = UserService.getCurrentUserEmail();
+    //         if (userEmail != null && !userEmail.isEmpty()) {
+    //             attendanceService.updateAttendance(userEmail, event.getNamaEvent(), true);
+    //             loadPurchasedEvents();
+    //             showAlert("Sukses", "Anda telah berhasil menandai kehadiran Anda untuk event: " + event.getNamaEvent());
+    //         } else {
+    //             showAlert("Gagal", "Tidak dapat menandai kehadiran. Pengguna belum login atau email tidak tersedia.");
+    //         }
+    //         alert.close();
+    //     });
+
+    //     buttonCancel.setOnAction(e -> alert.close());
+
+    //     HBox buttonBox = new HBox(10, buttonConfirm, buttonCancel);
+    //     buttonBox.setAlignment(Pos.CENTER);
+    //     buttonBox.setPadding(new Insets(15, 0, 0, 0));
+
+    //     VBox dialogContent = new VBox(10);
+    //     dialogContent.getChildren().addAll(contentTextLabel, buttonBox);
+    //     dialogContent.setAlignment(Pos.CENTER);
+    //     dialogContent.setPadding(new Insets(10));
+
+    //     alert.getDialogPane().setContent(dialogContent);
+
+    //     alert.showAndWait();
+    // }
+
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.NONE); // UBAH KE ALERT TYPE NONE
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
+        alert.setContentText(message);
 
         alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         alert.getDialogPane().getStyleClass().add("dialog-pane");
 
-        // Tidak perlu lookup icon lagi karena AlertType.NONE tidak punya ikon bawaan
-        // ImageView icon = (ImageView) alert.getDialogPane().lookup(".alert.information.icon");
-        // if (icon != null) { ... }
+        Label contentLabel = (Label) alert.getDialogPane().lookup(".content.label");
+        if (contentLabel != null) {
+            contentLabel.getStyleClass().add("label");
+        }
 
-        Label customContentLabel = new Label(message);
-        customContentLabel.setWrapText(true);
-        customContentLabel.getStyleClass().add("label");
-        customContentLabel.setAlignment(Pos.CENTER);
-
-        // Hapus alert.getDialogPane().getButtonTypes().clear();
-        // Karena AlertType.NONE tidak punya ButtonType bawaan untuk dihapus
-
-        Button okButton = new Button("OK");
-        okButton.getStyleClass().add("button");
-        okButton.setOnAction(e -> alert.close()); // Pastikan ini menutup alert
-
-        HBox buttonBox = new HBox(10, okButton);
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setPadding(new Insets(15, 0, 0, 0));
-
-        VBox dialogContent = new VBox(10);
-        dialogContent.getChildren().addAll(customContentLabel, buttonBox);
-        dialogContent.setAlignment(Pos.CENTER);
-        dialogContent.setPadding(new Insets(10));
-
-        alert.getDialogPane().setContent(dialogContent);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(javafx.scene.control.ButtonType.OK);
+        if (okButton != null) {
+            okButton.getStyleClass().add("button");
+        }
 
         alert.showAndWait();
     }
@@ -198,7 +256,7 @@ public class PresentInEventController {
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/user_dashboard.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 600, 400);
             stage.setScene(scene);
             stage.setTitle("User Dashboard");
             stage.show();

@@ -6,35 +6,52 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
-
-// import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 public class AdminDashboardController {
     @FXML private Button manageEventButton;
     @FXML private Button manageUserButton;
+    @FXML private Button logoutButton;
 
     @FXML
     private void handleManageEvent(ActionEvent event) {
-        // Tindakan ketika tombol Manage Event ditekan
         System.out.println("Manage Event Button Pressed");
-        showManageEventPage(); // Tampilkan halaman manajemen event
+        showManageEventPage();
     }
 
     @FXML
     private void handleManageUser(ActionEvent event) {
-        // Tindakan ketika tombol Manage User ditekan
         System.out.println("Manage User Button Pressed");
-        showManageUserPage(); // Tampilkan halaman manajemen user
+        showManageUserPage();
     }
+
+    @FXML
+    private void logoutHandle(ActionEvent event) {
+        System.out.println("Logout Button Pressed");
+        logOut();
+    }
+
+    private void logOut() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            VBox root = loader.load();
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setTitle("Login System");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void showManageEventPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/manage_event.fxml"));
             BorderPane  eventRoot = loader.load();
             Stage stage = (Stage) manageEventButton.getScene().getWindow();
-            // stage.setFullScreen(true);
-            stage.setScene(new Scene(eventRoot));
+            stage.setScene(new Scene(eventRoot, 600, 400));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,8 +62,7 @@ public class AdminDashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/manage_user.fxml"));
             BorderPane userRoot = loader.load();
             Stage stage = (Stage) manageUserButton.getScene().getWindow();
-            // stage.setFullScreen(true);
-            stage.setScene(new Scene(userRoot));
+            stage.setScene(new Scene(userRoot, 600, 400));
         } catch (Exception e) {
             e.printStackTrace();
         }

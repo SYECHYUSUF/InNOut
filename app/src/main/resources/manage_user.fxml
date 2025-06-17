@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?> <?import javafx.scene.text.Font?>
 
 <BorderPane stylesheets="style.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="innout.controller.ManageUserController">
     <padding>
@@ -26,26 +26,27 @@
                 </Label>
                 <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                     <children>
-                         <Button onAction="#handleAddNewUserAction" text="Add New User" />
+                        <Button onAction="#handleAddNewUserAction" text="Add New User" />
                     </children>
                 </HBox>
             </children>
         </HBox>
     </top>
     <center>
-        <TableView fx:id="userTableView" BorderPane.alignment="CENTER">
-            <columns>
-                <TableColumn fx:id="emailColumn" prefWidth="250.0" text="Email" />
-                <TableColumn fx:id="passwordColumn" prefWidth="200.0" text="Password" />
-                <TableColumn fx:id="deleteColumn" prefWidth="150.0" text="Action" />
-            </columns>
-        </TableView>
+        <VBox spacing="20.0" BorderPane.alignment="CENTER"> <children>
+                <TableView fx:id="userTableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="emailColumn" prefWidth="250.0" text="Email" />
+                        <TableColumn fx:id="passwordColumn" prefWidth="200.0" text="Password" />
+                        <TableColumn fx:id="deleteColumn" prefWidth="150.0" text="Action" />
+                    </columns>
+                </TableView>
+                <HBox alignment="CENTER_RIGHT">
+                    <children>
+                        <Button fx:id="kembaliButton" onAction="#handleKembaliButtonAction" text="Kembali ke Dashboard" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
     </center>
-    <bottom>
-        <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
-             <children>
-                <Button fx:id="kembaliButton" onAction="#handleKembaliButtonAction" text="Kembali ke Dashboard" />
-             </children>
-        </HBox>
-    </bottom>
 </BorderPane>

@@ -3,21 +3,16 @@ package innout;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Memuat file FXML login
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
         VBox root = loader.load();
-
-        // Menyiapkan stage
-        // primaryStage.setFullScreen(true);
         primaryStage.setTitle("Login System");
-        primaryStage.setScene(new Scene(root, 400, 300));
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 
