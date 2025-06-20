@@ -18,5 +18,10 @@
     "typeUser": "User",
     "email": "c@gmail.com",
     "password": "1111"
+  },
+  {
+    "typeUser": "User",
+    "email": "chandra@gmail.com",
+    "password": "123"
   }
 ]
